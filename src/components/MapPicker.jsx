@@ -160,19 +160,13 @@ export const MapPicker = ({ onLocationSelect, onAddressChange = null, initialLoc
       handleAddressSearch(initialAddress);
     } else {
       // Используем базовые координаты Казахстана без автоматического определения геолокации
-      const result = reverseGeocode(BASE_COORDS.lat, BASE_COORDS.lng);
-      result.then(res => {
-        setAddress(res.displayName);
-        setCity(res.city);
+      reverseGeocode(BASE_COORDS.lat, BASE_COORDS.lng).then(result => {
+        setAddress(result.displayName);
+        setCity(result.city);
       });
       // НЕ вызываем onLocationSelect автоматически - пользователь должен выбрать сам
-        reverseGeocode(BASE_COORDS.lat, BASE_COORDS.lng).then(result => {
-          setAddress(result.displayName);
-          setCity(result.city);
-        });
-        if (onLocationSelect) {
-          onLocationSelect({ lat: BASE_COORDS.lat, lng: BASE_COORDS.lng });
-        }
+      if (onLocationSelect) {
+        onLocationSelect({ lat: BASE_COORDS.lat, lng: BASE_COORDS.lng });
       }
     }
   }, []);
